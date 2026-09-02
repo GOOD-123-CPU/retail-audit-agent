@@ -1,0 +1,9 @@
+# 处理过的旧模板（已迁移到 Issue Forms），防止重复展示
+blank_issues_enabled: false
+contact_links:
+  - name: 使用问题 / Usage Questions
+    url: https://github.com/GOOD-123-CPU/retail-audit-agent/discussions
+    about: 使用疑问请到 Discussions 讨论 / Ask usage questions in Discussions
+  - name: 安全漏洞 / Security Vulnerabilities
+    url: https://github.com/GOOD-123-CPU/retail-audit-agent/security/advisories/new
+    about: 请通过 GitHub 私密安全报告提交，勿公开发布 / Use private vulnerability reporting

@@ -1,0 +1,70 @@
+# 版本: 3.9 兼容现代 Docker Compose v2（`docker compose up -d`）
+name: retail-audit-agent
+
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    environment:
+      APP_NAME: ${APP_NAME:-Retail Audit AI Agent}
+      APP_URL: ${APP_URL:-http://localhost:3000}
+      # 生产部署务必替换为强随机密钥: openssl rand -base64 48
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+      ALLOW_PUBLIC_REGISTRATION: ${ALLOW_PUBLIC_REGISTRATION:-false}
+      # AI 配置（可选：不配置时 AI 功能回退本地规则应答）
+      QWEN_API_URL: ${QWEN_API_URL:-https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions}
+      QWEN_API_KEY: ${QWEN_API_KEY:-}
+      QWEN_PRIMARY_MODEL: ${QWEN_PRIMARY_MODEL:-qwen3-max}
+      QWEN_FALLBACK_MODELS: ${QWEN_FALLBACK_MODELS:-qwen-plus,qwen-turbo}
+      # 存储模式: mysql | sqlite（sqlite 为零依赖单机模式）
+      DATABASE_PROVIDER: ${DATABASE_PROVIDER:-sqlite}
+      SQLITE_PATH: /app/data/retail-audit.db
+      MYSQL_HOST: db
+      MYSQL_PORT: "3306"
+      MYSQL_USER: ${MYSQL_USER:-retail_audit}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-retail_audit_agent}
+      # 首次启动演示账号（仅体验环境使用）
+      DEFAULT_ADMIN_EMAIL: ${DEFAULT_ADMIN_EMAIL:-admin@retail-audit.local}
+      DEFAULT_ADMIN_PASSWORD: ${DEFAULT_ADMIN_PASSWORD:-AdminDemo_2026}
+      DEFAULT_COMPANY_USER_EMAIL: ${DEFAULT_COMPANY_USER_EMAIL:-company@retail-audit.local}
+      DEFAULT_COMPANY_USER_PASSWORD: ${DEFAULT_COMPANY_USER_PASSWORD:-CompanyDemo_2026}
+    volumes:
+      - app-data:/app/data
+      - app-storage:/app/storage
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-retail_audit_agent}
+      MYSQL_USER: ${MYSQL_USER:-retail_audit}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?MYSQL_PASSWORD is required}
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_ai_ci
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+    # 仅 sqlite 模式时无需启动 db 服务；profile 让 `docker compose up -d` 默认跳过
+    profiles: ["mysql"]
+
+volumes:
+  app-data:
+  app-storage:
+  db-data:

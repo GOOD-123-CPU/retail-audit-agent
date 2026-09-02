@@ -1,0 +1,62 @@
+{
+  "name": "retail-audit-agent",
+  "version": "1.0.0",
+  "private": true,
+  "description": "开箱即用的零售业 AI 审计工作台：规则驱动风险识别 + OpenAI 兼容大模型解释与问答 + 审批流 + 审计底稿 + Markdown 审计报告 / An out-of-the-box AI-powered retail audit workbench.",
+  "license": "MIT",
+  "keywords": [
+    "audit",
+    "retail",
+    "ai",
+    "risk-detection",
+    "llm",
+    "nextjs",
+    "openai-compatible"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GOOD-123-CPU/retail-audit-agent.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GOOD-123-CPU/retail-audit-agent/issues"
+  },
+  "homepage": "https://github.com/GOOD-123-CPU/retail-audit-agent#readme",
+  "scripts": {
+    "dev": "next dev",
+    "dev:public": "next dev --hostname 0.0.0.0",
+    "build": "next build",
+    "start": "next start",
+    "start:public": "next start --hostname 0.0.0.0",
+    "check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "seed": "tsx scripts/seed.ts",
+    "repair-data": "tsx scripts/repair-data.ts",
+    "db:init": "tsx scripts/db-init.ts"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "jose": "^6.0.11",
+    "mysql2": "^3.21.1",
+    "next": "15.5.15",
+    "pdf-parse": "^1.1.1",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-markdown": "^10.1.0",
+    "tesseract.js": "^6.0.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/node": "^22.14.1",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.5",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3",
+    "vitest": "^4.1.11"
+  }
+}

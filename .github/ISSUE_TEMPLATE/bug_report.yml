@@ -1,0 +1,53 @@
+name: 🐞 Bug 报告 / Bug Report
+description: 报告系统缺陷，帮助改进项目 / Report a defect
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈！请先搜索现有 Issue 避免重复。安全漏洞请勿在此提交（见 SECURITY.md）。
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题描述 / Description
+      description: 清晰描述遇到的问题与预期行为
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤 / Steps to Reproduce
+      placeholder: |
+        1. 打开 …
+        2. 点击 …
+        3. 出现 …
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mode
+    attributes:
+      label: 存储模式 / Storage Mode
+      options:
+        - JSON 文件（默认回退）
+        - SQLite
+        - MySQL
+        - 不确定 / N/A
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: 版本或提交 / Version or Commit
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志 / Logs
+      description: 请脱敏后粘贴关键报错（注意：不要包含密钥、密码或真实业务数据）
+      render: shell
