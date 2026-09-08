@@ -5,7 +5,6 @@
 ![Next.js](https://img.shields.io/badge/Next.js-15-black)
 ![React](https://img.shields.io/badge/React-19-149eca)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6)
-![Tests](https://img.shields.io/badge/tests-46%20passed-brightgreen)
 
 简体中文 | [English](#english)
 
@@ -20,10 +19,10 @@
 - **规则驱动的风险识别**：内置 8 类零售业风险规则（收入舞弊、门店扩张、存货积压、返利费用、毛利率恶化、退货异常、收入质量、费用归集），基于 13 项财务指标阈值（营收增速、退货率、存货周转、毛利率趋势、应收周转等）与文档关键词双信号评分，规则支持页面上自定义。
 - **大模型风险解释与问答**：接入任意 **OpenAI 兼容 API**（默认阿里云百炼 DashScope，可换 DeepSeek / vLLM / Ollama 等），每个风险附带 AI 解释与审计程序建议；支持基于项目资料的多轮问答，回答附带引用溯源。超时重试、多模型回退链、无 Key 本地降级三重保障。
 - **多格式资料解析**：xlsx / csv / pdf（pdf-parse）/ 图片 OCR（tesseract.js 中文）/ txt / md，内置乱码自动修复与发票、合同关键字段抽取。
-- **轻量向量检索**：SHA256 伪向量 + 余弦相似度，零外部 embedding 依赖，即可支撑资料片段召回。
+- **演示检索模块**：SHA256 伪向量 + 余弦相似度，无外部 embedding 依赖。哈希伪向量不是语义嵌入，其相似度不能解释为语义相关性；真实检索效果需要独立评估。
 - **完整审计作业流**：项目 → 资料上传 → 风险分析 → 审批（提交/通过/驳回留痕）→ 底稿自动生成 → Markdown 报告导出。
 - **三种存储模式**：MySQL（生产）/ SQLite（零依赖单机）/ JSON 文件（兜底），连接失败自动降级、自愈回写。
-- **生产级工程化**：Docker 多阶段构建 + compose 编排 + healthcheck、46 个单元测试 + CI 门禁、JWT/PBKDF2/CSRF/限流全套安全。
+- **工程化配置**：Docker 多阶段构建 + compose 编排 + healthcheck、46 个单元测试 + CI 门禁、JWT/PBKDF2/CSRF/限流全套安全。
 - **开箱即用的演示**：一条命令生成含 6 份演示资料的完整示例项目。
 
 ## 🐳 Docker 一键部署（推荐）
@@ -160,10 +159,6 @@ Next.js 15 App Router (React 19, TS)
 
 > 更新历史见 [CHANGELOG.md](./CHANGELOG.md)。
 
-## ⭐ Star 历史
-
-[![Star History Chart](https://api.star-history.com/svg?repos=GOOD-123-CPU/retail-audit-agent&type=Date)](https://star-history.com/#GOOD-123-CPU/retail-audit-agent&Date)
-
 ## 🤝 贡献
 
 欢迎 Issue 与 PR，请先阅读 [CONTRIBUTING.md](./CONTRIBUTING.md) 与 [行为准则](./CODE_OF_CONDUCT.md)。安全漏洞请勿公开发布 Issue，参见 [SECURITY.md](./SECURITY.md)。
@@ -185,10 +180,10 @@ An out-of-the-box **AI-powered retail audit workbench**: upload business & invoi
 - **Rule-driven risk detection** — 8 built-in retail risk rules scored by 13 financial signal thresholds × document keywords; rules editable from the admin UI.
 - **LLM explanation & grounded Q&A** — works with **any OpenAI-compatible API** (DashScope by default; DeepSeek / vLLM / Ollama also fine). Timeout & retry, multi-model fallback chain, and full local degradation without an API key. Answers include citation traceability.
 - **Multi-format ingestion** — xlsx / csv / pdf / image OCR (Chinese) / txt / md, with mojibake auto-repair and invoice & contract field extraction.
-- **Lightweight vector search** — SHA256 pseudo-embeddings + cosine similarity, zero external embedding dependency.
+- **Demo retrieval module** — SHA256 pseudo-vectors with cosine similarity and no external embedding dependency. Hash-derived vectors are not semantic embeddings; their similarity must not be interpreted as semantic relevance. Retrieval quality requires independent evaluation.
 - **Full audit workflow** — projects → uploads → analysis → approval (with history) → auto working papers → Markdown report.
 - **Three storage modes** — MySQL (production) / SQLite (zero-dependency) / JSON files (fallback), with automatic degradation and self-healing.
-- **Production-grade engineering** — Docker multi-stage build + compose + healthcheck, 46 unit tests with CI gate, JWT/PBKDF2/CSRF/rate-limiting security stack.
+- **Engineering setup** — Docker multi-stage build + compose + healthcheck, 46 unit tests with CI gate, JWT/PBKDF2/CSRF/rate-limiting security stack.
 
 ## Quick Start
 
