@@ -1,14 +1,14 @@
 # syntax=docker/dockerfile:1
 
 # ---------- 构建阶段 ----------
-FROM node:20-alpine AS deps
+FROM node:26-alpine AS deps
 WORKDIR /app
 # libc6-compat: better-sqlite3 / sharp 等原生模块在 alpine 上需要
 RUN apk add --no-cache libc6-compat
 COPY package.json package-lock.json ./
 RUN npm ci
 
-FROM node:20-alpine AS builder
+FROM node:26-alpine AS builder
 WORKDIR /app
 RUN apk add --no-cache libc6-compat
 COPY --from=deps /app/node_modules ./node_modules
@@ -19,7 +19,7 @@ ENV NEXT_PHASE=phase-production-build
 RUN npm run build
 
 # ---------- 运行阶段 ----------
-FROM node:20-alpine AS runner
+FROM node:26-alpine AS runner
 WORKDIR /app
 
 # 安全基线：不以 root 运行
