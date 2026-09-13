@@ -55,7 +55,7 @@
     "@types/node": "^22.14.1",
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.5",
-    "tsx": "^4.19.4",
+    "tsx": "^4.23.13",
     "typescript": "^5.8.3",
     "vitest": "^4.1.11"
   }
