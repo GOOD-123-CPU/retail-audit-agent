@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@types/better-sqlite3": "^9.6.0",
-    "@types/node": "^22.14.1",
+    "@types/node": "^26.6.2",
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.5",
     "tsx": "^4.19.4",
